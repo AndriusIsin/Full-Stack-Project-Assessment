@@ -1,4 +1,4 @@
-CREATE TABLE urls (id SERIAL PRIMARY KEY, title VARCHAR(50), url VARCHAR(50), rating INTEGER );
+create table urls (id integer primary key, title varchar(50), url varchar(50), rating integer );
 INSERT INTO urls(id,title,url,rating) VALUES (523523,'Never','https://www.youtube.com/watch?v=dQw4w9WgXcQ',3500);
 INSERT INTO urls(id,title,url,rating) VALUES (523427,'The Coding Train','https://www.youtube.com/watch?v=HerCR8bw_GE',230);
 INSERT INTO urls(id,title,url,rating) VALUES (82653,'Mac & Cheese ','https://www.youtube.com/watch?v=FUeyrEN14Rk',2111);

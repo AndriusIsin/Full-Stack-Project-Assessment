@@ -11,15 +11,12 @@ function App() {
   const [videoCards, setVideoCards] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [rebuild, setRebuild] = useState(0);
   useEffect(() => {
     fetchVideos();
-  }, [rebuild]);
+  }, [videoCards]);
   const fetchVideos = async () => {
     try {
-      const response = await fetch(
-        "https://video-recomendations-server.onrender.com/videos"
-      );
+      const response = await fetch("http://localhost:4000/videos");
       if (!response.ok) {
         throw Error(
           `The fetching of videos was not successful. Error: ${response.status}`
@@ -40,7 +37,7 @@ function App() {
       <NavBar />
       <Welcome />
       <AddAndSearch setKeyword={setKeyword} />
-      <AddVideo setVideoCards={setVideoCards} setRebuild={setRebuild} />
+      <AddVideo setVideoCards={setVideoCards} videoCards={videoCards} />
       {error ? (
         <h1 className="error-msg "> {error}</h1>
       ) : !loading ? (

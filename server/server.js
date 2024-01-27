@@ -15,13 +15,13 @@ const pool = new Pool({
 });
 app.get("/videos", async (req, res) => {
   try {
-    const query = "SELECT * FROM videos ORDER BY id";
+    const query = "SELECT * FROM videos";
     const result = await pool.query(query);
     const videos = result.rows;
     res.status(200).json(videos);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "fetching videos" });
+    res.status(404).json({ error: "fetching videos" });
   }
 });
 app.get("/videos/:id", async function (req, res) {
@@ -31,7 +31,7 @@ app.get("/videos/:id", async function (req, res) {
       videoId,
     ]);
     if (result.rowCount === 1) {
-      res.status(200).send(`Video ${videoId}!`);
+      res.status(200).send(`Video ${videoId} deleted!`);
       res.status(200).json(result.rows);
     } else {
       res.status(404).json({
@@ -41,10 +41,6 @@ app.get("/videos/:id", async function (req, res) {
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({
-      result: "error",
-      message: "Internal server error",
-    });
   }
 });
 app.delete("/videos/:videosId", async function (req, res) {
@@ -65,10 +61,6 @@ app.delete("/videos/:videosId", async function (req, res) {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({
-      result: "error",
-      message: "Internal server error",
-    });
   }
 });
 
@@ -86,33 +78,23 @@ app.post("/videos", async function (req, res) {
         [newVideo.title, newVideo.url, newVideo.rating]
       );
       res.status(200).json(result.rows);
-    } else res.status(400).send("Please check the fields have been correctly filled in");
+    } else res.status(404).send("Please check the fields have been correctly filled in");
   } catch (error) {
     console.error(error);
-    res.status(500).json({
-      result: "error",
-      message: "Internal server error",
-    });
   }
 });
-app.put("/videos/:id", async (req, res) => {
+app.put("/video/:id", async (req, res) => {
   try {
-    const videoId = req.params.id;
-    const { rating } = req.body;
-    await pool.query("UPDATE videos SET rating = $1 WHERE id = $2", [
-      rating,
-      videoId,
-    ]);
-    res.status(200).json({
-      result: "success",
-      message: "Rating updated successfully",
-    });
+    const videosId = Number(req.params.id);
+    const newRating = Number(req.body.rating);
+    const updateQuery = "UPDATE videos SET rating = $1 WHERE id = $2";
+    const updateValues = [newRating, videosId];
+
+    await pool.query(updateQuery, updateValues);
+    res.status(200).json({ message: "success" });
   } catch (error) {
-    console.error("Error updating rating:", error);
-    res.status(500).json({
-      result: "error",
-      message: "Internal server error",
-    });
+    console.error("Video could not be updated", error);
+    res.status(500).json({ error: " Internal Server Error" });
   }
 });
 

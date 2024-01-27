@@ -2,13 +2,12 @@ import { useState } from "react";
 const AddVideo = ({ setRebuild, setVideoCards }) => {
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (
       title.trim() &&
       url.trim() &&
-      url.startsWith("https://www.youtube.com/watch?v=")
+      url.startsWith("https://www.youtube.com/")
     ) {
       const newVideo = {};
       newVideo.title = title;
@@ -29,7 +28,7 @@ const AddVideo = ({ setRebuild, setVideoCards }) => {
         .catch((error) => console.log(error));
     } else {
       alert(
-        "Please enter a valid Title and YouTube URL (e.g., Title: `Videos for Cats`, URL: https://www.youtube.com/watch?v=VIDEO_ID)"
+        "Please enter a valid title YouTube URL (e.g., Title: Videos for Cats, URL: https://www.youtube.com/watch?v=VIDEO_ID)"
       );
     }
     setUrl("");

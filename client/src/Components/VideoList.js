@@ -26,12 +26,12 @@ const VideoList = ({ keyword, videoCards, setVideoCards }) => {
           <div className="row row-cols-auto text-center custom-gap ">
             {videoCards
               .filter((video) => {
-                if (keyword.trim() === "") {
-                  return true;
+                if (keyword === "") {
+                  return video;
                 } else if (
                   video.title.toLowerCase().includes(keyword.toLowerCase())
                 ) {
-                  return true;
+                  return video;
                 }
               })
               .map((video) => (
