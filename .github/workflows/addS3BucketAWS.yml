@@ -14,8 +14,10 @@ jobs:
         uses: actions/setup-node@v2
       - name: Install dependencies
         run: npm install
+        working-directory: ./client
       - name: Build Website
         run: npm run build
+        working-directory: ./client
       - name: Set AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
