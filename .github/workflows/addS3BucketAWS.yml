@@ -31,4 +31,4 @@ jobs:
           aws-region: eu-west-2
           audience: sts.amazonaws.com
       - name: Deploy to S3
-        run: aws s3 sync . build/ s3://video-recomendations-andrius
+        run: aws s3 sync ./client/build s3://video-recomendations-andrius
