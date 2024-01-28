@@ -15,6 +15,8 @@ jobs:
       - name: Install dependencies
         run: npm install
         working-directory: ./client
+      - name: Update Browserslist
+        run: npx browserslist@latest --update-db
       - name: Build Website
         run: npm run build
         working-directory: ./client
