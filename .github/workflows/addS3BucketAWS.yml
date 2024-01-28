@@ -31,4 +31,4 @@ jobs:
           aws-region: eu-west-2
           audience: sts.amazonaws.com
       - name: Deploy to S3
-        run: npm run deploy
+        run: aws s3 sync . s3://video-recomendations-andrius
