@@ -21,8 +21,7 @@ jobs:
         run: npx update-browserslist-db@latest
       - name: Build Website
         run: |
-          process.env.CI = false
-          npm run build
+          npx cross-env CI=false npm run build
       - name: Set AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
