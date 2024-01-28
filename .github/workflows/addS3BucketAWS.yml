@@ -8,23 +8,23 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./client
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js
         uses: actions/setup-node@v2
       - name: Install dependencies
         run: npm install
-        working-directory: ./client
       - name: Update Browserslist
         run: npx update-browserslist-db@latest
       - name: Build Website
         run: npm run build
-        working-directory: ./client
       - name: Set AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           args: --acl public-read --follow-symlinks --delete --exclude '.git*/*'
-          source: client
         env:
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
