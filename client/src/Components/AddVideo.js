@@ -13,13 +13,16 @@ const AddVideo = ({ setRebuild, setVideoCards }) => {
       newVideo.title = title;
       newVideo.url = url;
       console.log(newVideo);
-      fetch("https://video-recomendations-server.onrender.com/videos", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newVideo),
-      })
+      fetch(
+        "http://ec2-13-40-222-78.eu-west-2.compute.amazonaws.com:4000/videos",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newVideo),
+        }
+      )
         .then((res) => res.json())
         .then((data) => {
           setVideoCards(data);

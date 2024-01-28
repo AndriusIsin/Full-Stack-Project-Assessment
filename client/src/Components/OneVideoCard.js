@@ -4,13 +4,16 @@ const OneVideoCard = ({ id, title, url, rating, handleDelete }) => {
 
   const increase = async () => {
     setVideoRating(videoRating + 1);
-    fetch(`https://video-recomendations-server.onrender.com/videos/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ rating: videoRating + 1 }),
-    })
+    fetch(
+      `http://ec2-13-40-222-78.eu-west-2.compute.amazonaws.com:4000/videos/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ rating: videoRating + 1 }),
+      }
+    )
       .then((response) => response.json())
       .then((data) => console.log(data))
       .catch((error) => console.log(error));
@@ -21,13 +24,16 @@ const OneVideoCard = ({ id, title, url, rating, handleDelete }) => {
     } else {
       setVideoRating(1);
     }
-    fetch(`https://video-recomendations-server.onrender.com/videos/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ rating: videoRating - 1 }),
-    })
+    fetch(
+      `http://ec2-13-40-222-78.eu-west-2.compute.amazonaws.com:4000/videos/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ rating: videoRating - 1 }),
+      }
+    )
       .then((response) => response.json())
       .then((data) => console.log(data))
       .catch((error) => console.log(error));
