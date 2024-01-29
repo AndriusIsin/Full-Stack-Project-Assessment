@@ -1,11 +1,13 @@
 const NavBar = () => {
+  const navigateTo = (target) => {
+    window.location.href = target;
+  };
+
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
         <div className="container">
-          <a href="#" className="navbar-brand">
-            VideoWorld
-          </a>
+          <div className="navbar-brand">VideoWorld</div>
           <button
             aria-label="hamburger menu"
             className="navbar-toggler"
@@ -18,19 +20,31 @@ const NavBar = () => {
           <div className="collapse navbar-collapse" id="nav-menu">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
-                <a href="#" className="nav-link">
+                <button
+                  type="button"
+                  className="nav-link"
+                  onClick={() => navigateTo("#home")}
+                >
                   Home
-                </a>
+                </button>
               </li>
               <li className="nav-item">
-                <a href="#recommendations" className="nav-link">
+                <button
+                  type="button"
+                  className="nav-link"
+                  onClick={() => navigateTo("#recommendations")}
+                >
                   Recommendations
-                </a>
+                </button>
               </li>
               <li className="nav-item">
-                <a href="#contact" className="nav-link">
+                <button
+                  type="button"
+                  className="nav-link"
+                  onClick={() => navigateTo("#contact")}
+                >
                   Contact
-                </a>
+                </button>
               </li>
             </ul>
           </div>
@@ -39,4 +53,5 @@ const NavBar = () => {
     </>
   );
 };
+
 export default NavBar;

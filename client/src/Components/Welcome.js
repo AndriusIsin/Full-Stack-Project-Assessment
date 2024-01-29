@@ -3,7 +3,7 @@ const Welcome = () => {
   return (
     <>
       <section className="bg-dark text-light p-5 p-lg-0  text-center text-sm-start">
-        <div className="container">
+        <div className="container" id="home">
           <div className="d-sm-flex align-items-center justify-content-between">
             <div>
               <h1>
