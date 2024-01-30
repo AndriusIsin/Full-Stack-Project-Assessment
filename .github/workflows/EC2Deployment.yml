@@ -1,0 +1,44 @@
+name: Backend EC2 Deployment
+
+on:
+  push:
+    branches:
+      - aws
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./server
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+
+      - name: Add EC2 host key to known hosts
+        run: ssh-keyscan -H ${{ secrets.EC2_IP }} >> ~/.ssh/known_hosts
+
+      - name: SSH into EC2 and set environment variables
+        run: |
+          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ec2-user@${{ secrets.EC2_IP }} '
+            # Set environment variable
+            export DB_URL=${{ secrets.DB_URL }}'
+
+      - name: Change directory to the backend
+        run: cd /home/ec2-user/fp-project/server
+
+      - name: Pull the latest code from the aws branch
+        run: git pull origin aws
+
+      - name: Install Node.js dependencies
+        run: npm install
+
+      - name: Restart the backend application with pm2
+        run: pm2 restart server.js
+
+    env:
+      NODE_ENV: production
