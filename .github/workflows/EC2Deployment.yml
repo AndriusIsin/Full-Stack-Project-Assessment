@@ -27,10 +27,12 @@ jobs:
       - name: Add EC2 host key to known hosts
         run: ssh-keyscan -H ${{ secrets.EC2_IP }} >> ~/.ssh/known_hosts
 
+      - name: Set up private key
+        run: echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/private_key && chmod 600 ~/.ssh/private_key
+
       - name: SSH into EC2 and set environment variables
         run: |
-          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ec2-user@${{ secrets.EC2_IP }} '
-            # Set environment variable
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/private_key ec2-user@${{ secrets.EC2_IP }} '
             export DB_URL=${{ secrets.DB_URL }}'
 
       - name: Change directory to the backend
