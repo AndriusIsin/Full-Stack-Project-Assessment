@@ -2,6 +2,8 @@ name: S3 Deployment
 
 on:
   push:
+    paths:
+      - "client/**"
     branches:
       - aws
 
