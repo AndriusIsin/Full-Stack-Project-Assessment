@@ -1,5 +1,5 @@
 create table videos (id SERIAL PRIMARY KEY,, title varchar(50), url varchar(50), rating integer );
-INSERT INTO videos(id,title,url,rating) VALUES (523523,'Never','https://www.youtube.com/watch?v=dQw4w9WgXcQ',3500);
+INSERT INTO videos(id,title,url,rating) VALUES (523523,'Neve','https://www.youtube.com/watch?v=dQw4w9WgXcQ',3500);
 INSERT INTO videos(id,title,url,rating) VALUES (523427,'The Coding Train','https://www.youtube.com/watch?v=HerCR8bw_GE',230);
 INSERT INTO videos(id,title,url,rating) VALUES (82653,'Mac & Cheese ','https://www.youtube.com/watch?v=FUeyrEN14Rk',2111);
 INSERT INTO videos(id,title,url,rating) VALUES (858566,'Videos for Cats','https://www.youtube.com/watch?v=Dh-ULbQmmF8',11);
