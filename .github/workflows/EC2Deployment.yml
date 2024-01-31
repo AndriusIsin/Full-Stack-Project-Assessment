@@ -30,3 +30,7 @@ jobs:
           remote_host: ${{ secrets.EC2_IP }}
           remote_user: ec2-user
           remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Restart Node.js app with PM2
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ec2-user@${{ secrets.EC2_IP }} "cd /home/ec2-user/fp-project/server/ && pm2 restart server.js"
