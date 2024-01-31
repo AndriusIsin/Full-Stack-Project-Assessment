@@ -39,8 +39,10 @@ jobs:
       - name: Pull the latest code from the aws branch
         run: git pull origin aws
 
-      - name: Install Node.js dependencies
-        run: npm install
+      - name: Install Node.js dependencies and pm2
+        run: |
+          npm install
+          npm install pm2 -g
 
       - name: Restart the backend application with pm2
         run: pm2 restart server.js
