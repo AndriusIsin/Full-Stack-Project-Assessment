@@ -30,13 +30,15 @@ jobs:
       - name: Set up private key
         run: echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/private_key && chmod 600 ~/.ssh/private_key
 
-      - name: Copy server folder to EC2
-        run: rsync -av --exclude "node_modules" ./server/ ec2-user@${{ secrets.EC2_IP }}:/home/ec2-user/fp-project/
-
-      - name: SSH into EC2 and run commands
+      - name: Build & Deploy
+        env:
+          DB_URL: ${{ secrets.DB_URL }}
         run: |
-          ssh -i ~/.ssh/private_key ec2-user@${{ secrets.EC2_IP }} '
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/private_key ec2-user@${{ secrets.EC2_IP }} '
             cd /home/ec2-user/fp-project/ &&
+            git checkout aws &&
+            git pull origin aws -- server &&
+            export DB_URL='${DB_URL}' &&
             npm install &&
             pm2 restart server.js
           '
