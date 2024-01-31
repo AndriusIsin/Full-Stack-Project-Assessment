@@ -23,10 +23,10 @@ jobs:
 
       - name: rsync deployments
         uses: burnett01/rsync-deployments@6.0.0
-          with:
-            switches: -avzr --delete
-            path: ./server/
-            remote_path: ~/.fp-project/server/
-            remote_host: ${{ secrets.EC2_IP }}
-            remote_user: ec2-user
-            remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+        with:
+          switches: -avzr --delete
+          path: ./server/
+          remote_path: ~/.fp-project/server/
+          remote_host: ${{ secrets.EC2_IP }}
+          remote_user: ec2-user
+          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
