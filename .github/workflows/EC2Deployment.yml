@@ -34,7 +34,7 @@ jobs:
         env:
           DB_URL: ${{ secrets.DB_URL }}
         run: |
-          ssh -o StrictHostKeyChecking=no -i private_key ec2-user@${{ secrets.EC2_IP }} '
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/private_key ec2-user@${{ secrets.EC2_IP }} '
             cd /home/ec2-user/fp-project/server &&
             git checkout aws &&
             git pull origin aws &&
