@@ -10,9 +10,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./server
 
     steps:
       - name: Checkout Repository
@@ -20,25 +17,13 @@ jobs:
 
       - name: Setup Node.js
         uses: actions/setup-node@v2
-
-      - name: Create SSH directory
-        run: mkdir -p ~/.ssh
-
-      - name: Add EC2 host key to known hosts
-        run: ssh-keyscan -H ${{ secrets.EC2_IP }} >> ~/.ssh/known_hosts
-
-      - name: Set up private key
-        run: echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/private_key && chmod 600 ~/.ssh/private_key
-
-      - name: Build & Deploy
-        env:
-          DB_URL: ${{ secrets.DB_URL }}
-        run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/private_key ec2-user@${{ secrets.EC2_IP }} '
-            cd /home/ec2-user/fp-project/server &&
-            git checkout aws &&
-            git pull origin aws -- server &&
-            export DB_URL='${DB_URL}' &&
-            npm install &&
-            pm2 restart server.js
-          '
+        
+      - name: rsync deployments
+        uses: burnett01/rsync-deployments@6.0.0
+          with:
+            switches: -avzr --delete
+            path: ./server/
+            remote_path: ~/.fp-project/server/
+            remote_host: ${{ secrets.EC2_IP }}
+            remote_user: ec2-user
+            remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
