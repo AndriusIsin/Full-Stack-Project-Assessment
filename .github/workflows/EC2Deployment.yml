@@ -35,6 +35,10 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/private_key ec2-user@${{ secrets.EC2_IP }} '
             cd /home/ec2-user/fp-project/server &&
             export DB_URL=${{ secrets.DB_URL }}'
+      - name: Debugging Info
+        run: |
+          echo "Current directory: $(pwd)"
+          echo "Contents of the current directory: $(ls -la)"
 
       - name: Pull the latest code from the aws branch
         run: git pull origin aws
