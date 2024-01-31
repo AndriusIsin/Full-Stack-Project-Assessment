@@ -31,7 +31,7 @@ jobs:
         run: echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/private_key && chmod 600 ~/.ssh/private_key
 
       - name: Copy server folder to EC2
-        run: scp -r ./server ec2-user@${{ secrets.EC2_IP }}:/home/ec2-user/fp-project/server
+        run: scp -i ~/.ssh/private_key -r ./server ec2-user@${{ secrets.EC2_IP }}:/home/ec2-user/fp-project/server
 
       - name: SSH into EC2 and run commands
         run: |
