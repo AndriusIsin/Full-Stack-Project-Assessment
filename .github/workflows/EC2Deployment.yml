@@ -36,7 +36,7 @@ jobs:
             export DB_URL=${{ secrets.DB_URL }}'
 
       - name: Change directory to the backend
-        run: cd /home/ec2-user/fp-project/server
+        run: cd ~/fp-project/server
 
       - name: Pull the latest code from the aws branch
         run: git pull origin aws
