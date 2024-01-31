@@ -35,11 +35,22 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/private_key ec2-user@${{ secrets.EC2_IP }} '
             cd /home/ec2-user/fp-project/server &&
             export DB_URL=${{ secrets.DB_URL }}'
-      - name: Debugging Info
-        run: |
-          echo "Current directory: $(pwd)"
-          echo "Contents of the current directory: $(ls -la)"
 
-      - name: Install Node.js dependencies and pm2
+      - name: Check if pm2 is installed, and install if not
         run: |
-          npm install
+          if ! command -v pm2 &> /dev/null
+          then
+              npm install pm2 -g
+          fi
+
+      - name: Pull the latest code from the aws branch
+        run: git pull origin aws
+
+      - name: Install Node.js dependencies
+        run: npm install
+
+      - name: Restart the backend application with pm2
+        run: pm2 restart server.js
+
+    env:
+      NODE_ENV: production
