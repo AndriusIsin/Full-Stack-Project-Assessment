@@ -24,7 +24,7 @@ jobs:
       - name: rsync deployments
         uses: burnett01/rsync-deployments@6.0.0
         with:
-          switches: -avzr --delete
+          switches: -avzr --exclude=node_modules --delete
           path: ./server/
           remote_path: /home/ec2-user/fp-project/server/
           remote_host: ${{ secrets.EC2_IP }}
