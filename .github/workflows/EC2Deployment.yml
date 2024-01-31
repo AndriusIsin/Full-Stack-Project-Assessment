@@ -26,7 +26,7 @@ jobs:
         with:
           switches: -avzr --delete
           path: ./server/
-          remote_path: ~/.fp-project/server/
+          remote_path: /home/ec2-user/fp-project/server/
           remote_host: ${{ secrets.EC2_IP }}
           remote_user: ec2-user
           remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
