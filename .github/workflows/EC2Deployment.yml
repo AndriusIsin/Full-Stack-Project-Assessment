@@ -21,15 +21,15 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
 
-      - name: Create SSH directory
-        run: mkdir -p ~/.ssh
+      - name: Set up SSH key
+        run: echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
 
       - name: Copy server folder to EC2
-        run: scp -i ${{ secrets.SSH_PRIVATE_KEY }} -r ./server ec2-user@${{ secrets.EC2_IP }}:/home/ec2-user/fp-project/server
+        run: scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./server ec2-user@${{ secrets.EC2_IP }}:/home/ec2-user/fp-project/server
 
       - name: SSH into EC2 and run commands
         run: |
-          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ec2-user@${{ secrets.EC2_IP }} '
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@${{ secrets.EC2_IP }} '
             cd /home/ec2-user/fp-project/ &&
             npm install &&
             pm2 restart server.js
