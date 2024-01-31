@@ -28,20 +28,20 @@ jobs:
       - name: Debug Workflow Environment
         run: |
           echo "SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY"
-          ls -la ~/.ssh
+          ls -la $HOME/.ssh
 
       - name: Set up SSH key
-        run: echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
+        run: echo "$SSH_PRIVATE_KEY" > $HOME/.ssh/id_rsa && chmod 600 $HOME/.ssh/id_rsa
 
       - name: Debug After SSH Key Setup
-        run: ls -la ~/.ssh
+        run: ls -la $HOME/.ssh
 
       - name: Copy server folder to EC2
-        run: scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./server ec2-user@$EC2_IP:/home/ec2-user/fp-project/server
+        run: scp -o StrictHostKeyChecking=no -i $HOME/.ssh/id_rsa -r ./server ec2-user@$EC2_IP:/home/ec2-user/fp-project/server
 
       - name: SSH into EC2 and run commands
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@$EC2_IP '
+          ssh -o StrictHostKeyChecking=no -i $HOME/.ssh/id_rsa ec2-user@$EC2_IP '
             cd /home/ec2-user/fp-project/ &&
             npm install &&
             pm2 restart server.js
