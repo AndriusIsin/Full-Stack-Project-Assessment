@@ -29,7 +29,6 @@ jobs:
         with:
           context: ./
           push: true
-          dockerfile: ./Dockerfile
           tags: andrius5222/full-stack-app:latest
   deploy:
     needs: build
