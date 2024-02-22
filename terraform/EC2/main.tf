@@ -1,49 +1,76 @@
 terraform {
   required_providers {
-    aws = {                                     // Define required AWS provider
+    aws = {                                    
       source  = "hashicorp/aws"                
       version = "~> 5.37.0"                     
     }
   }
-  required_version = ">= 1.0.0"                 // Terraform version constraint
+  required_version = ">= 1.0.0"                
 }
 
-provider "aws" {                                 // Configure AWS provider
-  region = "eu-west-2"                          
+provider "aws" {
+  region = "eu-west-2"
 }
 
-resource "aws_security_group" "video_security" { // Define AWS security group resource
-  name        = "video_andrius_security_group"  
-  description = "Allow ports 8080 and 4000"     
+resource "aws_security_group" "video_security" {
+  name        = "video_andrius_security_group"
+  description = "Allow ports 22, 8080, and 4000"
 
-  ingress {                                     // Define ingress rules
-    from_port   = 8080                           
-    to_port     = 8080                          
-    protocol    = "tcp"                         
-    cidr_blocks = ["0.0.0.0/0"]                 
+ 
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
-  ingress {                                     // Define another ingress rule
-    from_port   = 4000                          
-    to_port     = 4000                          
-    protocol    = "tcp"                         
-    cidr_blocks = ["0.0.0.0/0"]                  
+  // Additional rules
+  ingress {
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
-  egress {                                      // Define egress rule
-    from_port   = 0                            
-    to_port     = 0                             
-    protocol    = "-1"                        
-    cidr_blocks = ["0.0.0.0/0"]           
+  ingress {
+    from_port   = 4000
+    to_port     = 4000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
 
-resource "aws_instance" "video_andrius" {       // Define AWS EC2 instance resource
-  instance_type          = "t2.micro"          
-  ami                    = "ami-09d6bbc1af02c2ca1"  
-  vpc_security_group_ids = [aws_security_group.video_security.id]  // Attach security group to the instance
+resource "aws_instance" "video_andrius" {
+  instance_type          = "t2.micro"
+  ami                    = "ami-09d6bbc1af02c2ca1"
+  vpc_security_group_ids = [aws_security_group.video_security.id]
+  key_name               = "NodeApplicationLoginKey" 
 
-  tags = {                                     
-    Name = "video_andrius_instance"             // Name tag
+
+  tags = {
+    Name = "video_andrius_instance"
+  }
+
+  provisioner "remote-exec" {
+    connection {
+      type        = "ssh"
+      user        = "ec2-user"  
+      private_key = file("/Users/andriusisin/Downloads/NodeApplicationLoginKey.pem")
+      host        = self.public_ip
+    }
+
+    inline = [
+      "sudo yum update -y",
+      "sudo yum install docker -y",
+      "sudo systemctl start docker",
+      "sudo systemctl enable docker"
+    ]
   }
 }
