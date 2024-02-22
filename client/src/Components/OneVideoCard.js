@@ -5,7 +5,7 @@ const OneVideoCard = ({ id, title, url, rating, handleDelete }) => {
   const increase = async () => {
     setVideoRating(videoRating + 1);
     fetch(
-      `http://ec2-13-40-222-78.eu-west-2.compute.amazonaws.com:4000/videos/${id}`,
+      `http://ec2-18-169-52-12.eu-west-2.compute.amazonaws.com:4000/videos/${id}`,
       {
         method: "PUT",
         headers: {
