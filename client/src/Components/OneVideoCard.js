@@ -5,7 +5,7 @@ const OneVideoCard = ({ id, title, url, rating, handleDelete }) => {
   const increase = async () => {
     setVideoRating(videoRating + 1);
     fetch(
-      `http://ec2-13-41-79-238.eu-west-2.compute.amazonaws.com:4000/videos/${id}`,
+      `http://ec2-52-56-37-103.eu-west-2.compute.amazonaws.com:4000/videos/${id}`,
       {
         method: "PUT",
         headers: {
@@ -25,7 +25,7 @@ const OneVideoCard = ({ id, title, url, rating, handleDelete }) => {
       setVideoRating(1);
     }
     fetch(
-      `http://ec2-13-40-222-78.eu-west-2.compute.amazonaws.com:4000/videos/${id}`,
+      `http://ec2-52-56-37-103.eu-west-2.compute.amazonaws.com:4000/videos/${id}`,
       {
         method: "PUT",
         headers: {
