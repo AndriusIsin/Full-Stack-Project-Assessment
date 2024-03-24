@@ -47,14 +47,14 @@ jobs:
           chmod 600 key.pem
       - name: Pull Docker image
         run: |
-          ssh -o StrictHostKeyChecking=no -i key.pem ec2-user@52.56.37.103 'sudo docker pull andrius5222/full-stack-app:latest'
+          ssh -o StrictHostKeyChecking=no -i key.pem ec2-user@18.169.127.86 'sudo docker pull andrius5222/full-stack-app:latest'
       - name: Stop running container
         run: |
-          ssh -o StrictHostKeyChecking=no -i key.pem ec2-user@52.56.37.103 'sudo docker stop full-stack-app || true'
-          ssh -o StrictHostKeyChecking=no -i key.pem ec2-user@52.56.37.103 'sudo docker rm full-stack-app || true'
+          ssh -o StrictHostKeyChecking=no -i key.pem ec2-user@18.169.127.86 'sudo docker stop full-stack-app || true'
+          ssh -o StrictHostKeyChecking=no -i key.pem ec2-user@18.169.127.86 'sudo docker rm full-stack-app || true'
       - name: Run new container
         run: |
-          ssh -o StrictHostKeyChecking=no -i key.pem ec2-user@52.56.37.103 'sudo docker run -d --name full-stack-app -p 4000:4000 -e DB_URL=${{ secrets.DB_URL }} andrius5222/full-stack-app:latest'
+          ssh -o StrictHostKeyChecking=no -i key.pem ec2-user@18.169.127.86 'sudo docker run -d --name full-stack-app -p 4000:4000 -e DB_URL=${{ secrets.DB_URL }} andrius5222/full-stack-app:latest'
 
 # name: Backend EC2 Deployment
 

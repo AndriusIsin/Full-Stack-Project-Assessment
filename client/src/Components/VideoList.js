@@ -6,7 +6,7 @@ const VideoList = ({ keyword, videoCards, setVideoCards }) => {
   const handleDelete = async (id) => {
     try {
       const response = await fetch(
-        `http://ec2-52-56-37-103.eu-west-2.compute.amazonaws.com:4000/videos/${id}`,
+        `http://ec2-18-169-127-86.eu-west-2.compute.amazonaws.com:4000/videos/${id}`,
         {
           method: "DELETE",
         }
